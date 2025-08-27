@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
-import { SpotifyService } from "../../services/spotify.services";
-
+import {ChangeDetectionStrategy, Component, inject, OnInit} from "@angular/core";
+import { SpotifyService } from "../../services/spotify.service";
 
 @Component({
   selector: 'app-login',
@@ -9,12 +8,33 @@ import { SpotifyService } from "../../services/spotify.services";
   styleUrl: './login.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
+
+
+  roteador = inject(Router);
+
+  ngOnInit(): void {
+    this.verficarCodigoUrlCallback();
+  }
 
   serviceSpotify = inject(SpotifyService);
   anoAtual = new Date().getFullYear();
 
   async fazerLogin() {
     const url = await this.serviceSpotify.obterUrlLogin();
+    window.location.href = url;
+  }
+
+  async verficarCodigoUrlCallback() {
+    const params = new URLSearchParams(window.location.search);
+    const codigo = params.get("code");
+
+    if (codigo) {
+      const sucesso = await this.serviceSpotify.definirAcesstoken(codigo);
+
+      if (sucesso) {
+        this.roteador.navigate(['/player']);
+      }
+    }
   }
 }
