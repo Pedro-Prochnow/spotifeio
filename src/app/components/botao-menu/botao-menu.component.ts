@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, input, output, OnInit} from "@angular/core";
+import {ChangeDetectionStrategy, Component, input, OnInit, output} from "@angular/core";
 
 @Component({
   selector: 'app-botao-menu',
