@@ -1,0 +1,22 @@
+<div class="menus flex">
+  <div class="image-container flex flex-center">
+    <img src="img/logo-branco.png" alt="Spotifeio Logo" class="logo" />
+  </div>
+
+  <div class="menu-container flex opcoes">
+    <app-botao-menu [nome]="'Inicio'" [botaoSelecionado]="menuSelecionado === 'Inicio'"
+    (OnClick)="menuSelecionado = 'Inicio'">
+      <fa-icon [icon]="faHome"></fa-icon>
+    </app-botao-menu>
+
+    <app-botao-menu [nome]="'Pesquisar'" [botaoSelecionado]="menuSelecionado === 'Inicio'"
+    (OnClick)="menuSelecionado = 'Inicio'">
+      <fa-icon [icon]="faSearch"></fa-icon>
+    </app-botao-menu>
+
+    <app-botao-menu [nome]="'Artistas'" [botaoSelecionado]="menuSelecionado === 'Inicio'"
+    (OnClick)="menuSelecionado = 'Inicio'">
+      <fa-icon [icon]="faUser"></fa-icon>
+    </app-botao-menu>
+  </div>
+</div>

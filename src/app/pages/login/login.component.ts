@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit} from "@angular/core";
-import { SpotifyService } from "../../services/spotify.service";
+import {SpotifyService} from "../../services/spotify.service";
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -9,7 +10,6 @@ import { SpotifyService } from "../../services/spotify.service";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent implements OnInit {
-
 
   roteador = inject(Router);
 
