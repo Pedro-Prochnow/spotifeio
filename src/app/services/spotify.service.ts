@@ -1,6 +1,7 @@
-import {Injectable} from "@angular/core";
+import {inject, Injectable} from "@angular/core";
 import {SpotifyConfiguration} from "../../enviroment/enviroment";
 import SpotifyWebApi from 'spotify-web-api-js';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,7 @@ export class SpotifyService {
 
   spotifyApi = new SpotifyWebApi();
   usuario: SpotifyApi.CurrentUsersProfileResponse | null = null;
+  roteador = inject(Router);
 
   constructor() {}
 
@@ -90,5 +92,49 @@ export class SpotifyService {
       console.error('Ocorreu um erro ao obter o token de acesso:', error);
       return false;
     }
+  }
+
+  async carregarPlaylists(offset = 0, limit = 50): Promise<SpotifyApi.PlaylistObjectSimplified[]> {
+    const acessToken = localStorage.getItem('access_token');
+    if (!acessToken) {
+      return [];
+    }
+
+    try {
+      this.spotifyApi.setAccessToken(acessToken);
+      const playlists =
+        await this.spotifyApi.getUserPlaylists(this.usuario!.id, {offset, limit});
+
+      return playlists.items as SpotifyApi.PlaylistObjectSimplified[] ?? [];
+    } catch (error) {
+      console.error('Ocorreu um erro ao obter as playlists:', error);
+      return [];
+    }
+  }
+
+  async carregarUsuario() {
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+      return null;
+    }
+
+    try {
+      this.spotifyApi.setAccessToken(accessToken);
+      const me = await this.spotifyApi.getMe();
+      this.usuario = me as SpotifyApi.CurrentUsersProfileResponse;
+      return this.usuario;
+    } catch (e) {
+      console.error('Não foi possível carregar o usuário Spotify:', e);
+      this.usuario = null;
+      return null;
+    }
+  }
+
+  logout() {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('code_verifier');
+    this.usuario = null;
+    this.spotifyApi.setAccessToken('');
+    this.roteador.navigate(['/login']);
   }
 }

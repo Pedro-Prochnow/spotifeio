@@ -1,5 +1,7 @@
 @use 'variaveis' as *;
 
+$h-playlist-scroll: calc(120px + 150px + 10px + 70px);
+
 :host {
   max-width: 300px;
   min-height: 100vh;
@@ -39,6 +41,45 @@
           margin-bottom: 10px;
         }
       }
+
+      .playlist-titulo {
+        margin: 10px 0px;
+        align-self: flex-start;
+        font-weight: 700;
+        font-size: 0.7rem;
+        color: $cor-texto-secundario;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .playlist-scroll {
+        width: 100%;
+        overflow-y: auto;
+        max-height: calc(95vh - #{$h-playlist-scroll});
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
+
+        app-botao-menu {
+          .playlist-img {
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            object-fit: cover;
+            vertical-align: middle;
+          }
+        }
+      }
     }
   }
+}
+
+.usuario-info {
+  flex-grow: 0;
+  display: block;
+  bottom: 0;
+  align-self: flex-end;
+  height: 70px;
+  width: 100%;
 }

@@ -25,4 +25,20 @@
       <fa-icon [icon]="faUser"></fa-icon>
     </app-botao-menu>
   </div>
+
+  <div class="menu-container flex">
+    <span class="playlist-titulo">PLAYLISTS</span>
+
+    <div class="playlist-scroll">
+      @for ( playlist of playlists() ; track playlist.id) {
+        <app-botao-menu [nome]="playlist.name">
+          <img class="playlist-img" [src]="playlist.images[0].url" [alt]="playlist.id" />
+        </app-botao-menu>
+      }
+    </div>
+  </div>
+</div>
+
+<div class="usuario-info">
+  <app-usuario-info></app-usuario-info>
 </div>
